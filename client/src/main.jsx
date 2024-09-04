@@ -9,6 +9,8 @@ import {
 import "./index.css";
 
 import { ErrorPage, Dashboard, Register, Landing } from '../src/pages'
+import App from './App';
+import { AppProvider } from './context/AppContext';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AppProvider>
     <RouterProvider router={router} />
+    </AppProvider>
   </StrictMode>,
 )
