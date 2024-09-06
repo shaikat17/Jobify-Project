@@ -1,4 +1,4 @@
-import { CLEAR_ALERT, DISPLAY_ALERT, REGISTER_USER_BEGIN, REGISTER_USER_ERROR, REGISTER_USER_SUCCESS } from "./actions"
+import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS } from "./actions"
 
 const reducer = (state, action) => {
     if (action.type === DISPLAY_ALERT) {
@@ -17,13 +17,13 @@ const reducer = (state, action) => {
             alertText: ''
         }
     }
-    if (action.type === REGISTER_USER_BEGIN) {
+    if (action.type === SETUP_USER_BEGIN) {
         return {
             ...state,
             isLoading: true
         }
     }
-    if (action.type === REGISTER_USER_SUCCESS) {
+    if (action.type === SETUP_USER_SUCCESS) {
         return {
             ...state,
             isLoading: false,
@@ -33,10 +33,10 @@ const reducer = (state, action) => {
             jobLocation: action.payload.user.location,
             showAlert: true,
             alertType: 'success',
-            alertText: 'User Created! Redirection...'
+            alertText: action.payload.alertText
         }
     }
-    if (action.type === REGISTER_USER_ERROR) {
+    if (action.type === SETUP_USER_ERROR) {
         return {
             ...state,
             showAlert: true,
@@ -44,6 +44,7 @@ const reducer = (state, action) => {
             alertType: 'danger',
             alertText: action.payload.msg
         }
+        
     }
     
     throw new Error(`No such action: ${action.type}`)
