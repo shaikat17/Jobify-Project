@@ -2,7 +2,7 @@ import { useReducer, useContext, createContext } from 'react';
 import axios from 'axios'
 
 import reducer from './reducer';
-import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS } from './actions';
+import { CLEAR_ALERT, DISPLAY_ALERT, LOGOUT_USER, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR } from './actions';
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -18,6 +18,7 @@ export const initialState = {
   token: token,
   userLocation: location || '',
   jobLocation: location || '',
+  showSidebar: false,
 };
 
 
@@ -55,6 +56,7 @@ const AppProvider = ({ children }) => {
   }
 
 
+  // Register and login user functionality
   const setUpUser = async ({currentUser, endPoint, alertText}) => {
     dispatch({ type: SETUP_USER_BEGIN })
     try {
@@ -73,12 +75,25 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  // user logout functionality
+  const logoutUser = () => {
+    dispatch({ type: LOGOUT_USER })
+    removeUserFromLocalStorage()
+  }
+
+  // Side bar toggle functionality
+  const toggleSideBar = () => {
+    dispatch({ type: TOGGLE_SIDEBAR})
+  }
+
   return (
     <AppContext.Provider
       value={{
               ...state,
         displayAlert,
-        setUpUser
+        setUpUser,
+        toggleSideBar,
+        logoutUser
       }}
     >
       {children}
