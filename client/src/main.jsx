@@ -8,14 +8,35 @@ import {
 } from "react-router-dom";
 import "./index.css";
 
-import { ErrorPage, Dashboard, Register, Landing } from '../src/pages'
+import { ErrorPage, Register, Landing, ProtectedRoute } from '../src/pages'
 import App from './App';
 import { AppProvider } from './context/AppContext';
+import { AddJob, AllJobs, Profile, SharedLayOut, Stats } from './pages/dashboard';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Dashboard />,
+    element: <ProtectedRoute>
+      <SharedLayOut />
+    </ProtectedRoute>,
+    children: [
+      {
+        index: true,
+        element: <Stats />
+      },
+      {
+        path: 'all-jobs',
+        element: <AllJobs />
+      },
+      {
+        path: 'add-job',
+        element: <AddJob />
+      },
+      {
+        path: 'profile',
+        element: <Profile /> 
+      }
+    ]
   },
   {
     path: "/register",
