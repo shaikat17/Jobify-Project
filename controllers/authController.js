@@ -44,6 +44,7 @@ const token = user.createJWT()
 };
 
 const updateUser = (req, res) => {
+  console.log(req.user)
   res.send("update user");
 };
 

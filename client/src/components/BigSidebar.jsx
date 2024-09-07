@@ -6,7 +6,7 @@ import NavLinks from "./NavLinks"
 import { useAppContext } from "../context/AppContext"
 
 const BigSidebar = () => {
-  const { showSidebar, toggleSideBar } = useAppContext()
+  const { showSidebar } = useAppContext()
   return (
     <Wrapper>
       <div className={showSidebar ? "sidebar-container show-sidebar" : "sidebar-container"}>
@@ -14,7 +14,7 @@ const BigSidebar = () => {
           <header>
             <Logo />
           </header>
-          <NavLinks toggleSideBar ={toggleSideBar} />
+          <NavLinks />
         </div>
       </div>
     </Wrapper>
