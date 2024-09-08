@@ -1,4 +1,4 @@
-import { CLEAR_ALERT, DISPLAY_ALERT, LOGOUT_USER, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR } from "./actions"
+import { CLEAR_ALERT, DISPLAY_ALERT, LOGOUT_USER, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from "./actions"
 import { initialState } from "./AppContext"
 
 const reducer = (state, action) => {
@@ -58,6 +58,35 @@ const reducer = (state, action) => {
             userLocation: null,
             jobLocation: null
         }
+    }
+    if (action.type === UPDATE_USER_BEGIN) {
+        return {
+            ...state,
+            isLoading: true
+        }
+    }
+    if (action.type === UPDATE_USER_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            token: action.payload.token,
+            user: action.payload.user,
+            userLocation: action.payload.user.location,
+            jobLocation: action.payload.user.location,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'User Profile Updated'
+        }
+    }
+    if (action.type === UPDATE_USER_ERROR) {
+        return {
+            ...state,
+            showAlert: true,
+            isLoading: false,
+            alertType: 'danger',
+            alertText: action.payload.msg
+        }
+        
     }
     
     throw new Error(`No such action: ${action.type}`)

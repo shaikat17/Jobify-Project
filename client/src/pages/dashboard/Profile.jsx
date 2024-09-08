@@ -42,12 +42,12 @@ const Profile = () => {
 
         {/* name */}
         <div className="form-center">
-          <InputFrom type="text" labelText="name" name='name' value={userInformation.name} handleChange={handleChange} />
+          <InputFrom type="text" labelText="name" name='name' value={values.name} handleChange={handleChange} />
 
-          <InputFrom type="text" labelText="last name" name='lastName' value={userInformation.lastName} handleChange={handleChange} />
-          <InputFrom type="email" labelText="email" name='email' value={userInformation.email} handleChange={handleChange} />
+          <InputFrom type="text" labelText="last name" name='lastName' value={values.lastName} handleChange={handleChange} />
+          <InputFrom type="email" labelText="email" name='email' value={values.email} handleChange={handleChange} />
 
-          <InputFrom type="text" labelText="location" name='location' value={userInformation.location} handleChange={handleChange} />
+          <InputFrom type="text" labelText="location" name='location' value={values.location} handleChange={handleChange} />
 
           <button className="btn btn-block" type='submit' disabled={isLoading} onClick={handleSubmit}>
             {isLoading ? 'Please Wait...' : 'Save Changes'}
