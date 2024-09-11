@@ -2,7 +2,7 @@ import { useReducer, useContext, createContext } from 'react';
 import axios from 'axios'
 
 import reducer from './reducer';
-import { CLEAR_ALERT, DISPLAY_ALERT, LOGOUT_USER, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from './actions';
+import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DISPLAY_ALERT, HANDLE_CHANGE, LOGOUT_USER, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from './actions';
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -19,6 +19,14 @@ export const initialState = {
   userLocation: location || '',
   jobLocation: location || '',
   showSidebar: false,
+  isEditing: false,
+  editJobId: '',
+  company: '',
+  position: '',
+  jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+  jobType: 'full-time',
+  statusOptions: ['pending', 'interview', 'declined'],
+  status: 'pending'
 };
 
 
@@ -139,6 +147,43 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  // handle change
+  const handleChange = ({ name, value }) => {
+    dispatch({
+      type: HANDLE_CHANGE,
+      payload: {name, value}
+    })
+  }
+
+  // clear field values
+  const clearValues = () => {
+    dispatch({type: CLEAR_VALUES})
+  }
+
+  // create job function
+  const createJob = async () => {
+    dispatch({ type: CREATE_JOB_BEGIN })
+    try {
+      const { position, company, jobLocation, jobType, status } = state
+      
+      await authFetch.post('/jobs', {
+        company,
+        position,
+        jobLocation,
+        jobType,
+        status
+      })
+
+      dispatch({ type: CREATE_JOB_SUCCESS })
+      
+      dispatch({ type: CLEAR_VALUES})
+    } catch (error) {
+      if (error.response.status === 401) return
+      dispatch({ type: CREATE_JOB_ERROR, payload: { msg: error.response.data.msg }})
+    }
+    clearAlert()
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -147,7 +192,10 @@ const AppProvider = ({ children }) => {
         setUpUser,
         toggleSideBar,
         logoutUser,
-        updateUser
+        updateUser,
+        handleChange,
+        clearValues,
+        createJob,
       }}
     >
       {children}
