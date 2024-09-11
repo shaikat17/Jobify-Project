@@ -5,7 +5,7 @@ import InputSelectForm from '../../components/InputSelectForm'
 
 const AddJob = () => {
 
-  const { isEditing, showAlert, displayAlert, position, company, jobLocation, isLoading, jobType, jobTypeOptions, status, statusOptions, handleChange, clearValues, createJob } = useAppContext()
+  const { isEditing, showAlert, displayAlert, position, company, jobLocation, isLoading, jobType, jobTypeOptions, status, statusOptions, handleChange, clearValues, createJob, editJob } = useAppContext()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -14,7 +14,10 @@ const AddJob = () => {
       displayAlert()
       return;
     }
-    if(isEditing) return
+    if (isEditing) {
+      editJob()
+      return
+    }
     
     createJob()
   }

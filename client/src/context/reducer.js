@@ -1,4 +1,4 @@
-import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DISPLAY_ALERT, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, HANDLE_CHANGE, LOGOUT_USER, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from "./actions"
+import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DISPLAY_ALERT, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, HANDLE_CHANGE, LOGOUT_USER, SET_EDIT_JOB, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from "./actions"
 import { initialState } from "./AppContext"
 
 const reducer = (state, action) => {
@@ -139,6 +139,21 @@ const reducer = (state, action) => {
             numOfPages: action.payload.numOfPages
         }
     }
+
+    if (action.type === SET_EDIT_JOB) {
+        const job = state.jobs.find((job) => job._id === action.payload.id);
+        const { _id, position, company, jobLocation, jobType, status } = job;
+        return {
+          ...state,
+          isEditing: true,
+          editJobId: _id,
+          position,
+          company,
+          jobLocation,
+          jobType,
+          status,
+        };
+      }
     
     throw new Error(`No such action: ${action.type}`)
 }
