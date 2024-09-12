@@ -3,6 +3,7 @@ import Job from "../models/Job.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkParmissions.js";
 
+// job create controller
 const createJob = async (req, res) => {
   const { position, company } = req.body;
 
@@ -17,10 +18,24 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ job });
 };
 
-const deleteJob = (req, res) => {
-  res.send("delete job");
+// job delete controller
+const deleteJob = async (req, res) => {
+  const { id: jobId } = req.params
+
+  const job = await Job.findOne({ _id: jobId })
+  
+  if (!job) {
+    throw new NotFoundError('No job found with thi information')
+  }
+
+  checkPermissions(req.user, job.createdBy)
+
+  await job.remove()
+
+  res.status(StatusCodes.OK).json({ msg: 'Success! Job Removed...'})
 };
 
+// job update controller
 const updateJob = async (req, res) => {
   const { id: jobId } = req.params
 
