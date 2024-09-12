@@ -36,7 +36,7 @@ const updateJob = async (req, res) => {
     throw new NotFoundError('No job found with this information.')
   }
 
-  checkPermissions(req.user, job.createdAt)
+  checkPermissions(req.user, job.createdBy)
 
   const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, { new: true, runValidators: true })
   
