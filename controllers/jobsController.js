@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import Job from "../models/Job.js";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkParmissions.js";
+import mongoose from "mongoose";
 
 // job create controller
 const createJob = async (req, res) => {
@@ -65,8 +66,28 @@ const getAllJobs = async (req, res) => {
   res.status(StatusCodes.OK).json({ jobs, totalJobs: jobs.length, numOfPages: 1})
 };
 
-const showStats = (req, res) => {
-  res.send("show job stats");
+const showStats = async (req, res) => {
+  let stats = await Job.aggregate([
+    { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
+    { $group: { _id: '$status', count: { $sum: 1 }} }
+  ])
+
+  stats = stats.reduce((acc, curr) => {
+    const { _id: title, count } = curr
+    acc[title] = count
+
+    return acc
+  }, {})
+  
+  const defaultStats = {
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined
+  }
+
+  let monthlyApplications = []
+
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications })
 };
 
 export { createJob, deleteJob, updateJob, getAllJobs, showStats };
