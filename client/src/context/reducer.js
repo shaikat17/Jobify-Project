@@ -1,5 +1,5 @@
 import { act } from "react"
-import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DISPLAY_ALERT, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, HANDLE_CHANGE, LOGOUT_USER, SET_EDIT_JOB, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS, EDIT_JOB_BEGIN, EDIT_JOB_ERROR, EDIT_JOB_SUCCESS, DELETE_JOB_BEGIN, DELETE_JOB_ERROR, } from "./actions"
+import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DISPLAY_ALERT, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, HANDLE_CHANGE, LOGOUT_USER, SET_EDIT_JOB, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS, EDIT_JOB_BEGIN, EDIT_JOB_ERROR, EDIT_JOB_SUCCESS, DELETE_JOB_BEGIN, DELETE_JOB_ERROR, SHOW_STATS_BEGIN, SHOW_STATS_SUCCESS, } from "./actions"
 import { initialState } from "./AppContext"
 
 const reducer = (state, action) => {
@@ -188,6 +188,18 @@ const reducer = (state, action) => {
             showAlert: true,
             alertType: 'danger',
             alertText: action.payload.msg
+        }
+    }
+
+    if (action.type === SHOW_STATS_BEGIN) {
+        return {...state, isLoading: true}
+    }
+    if (action.type === SHOW_STATS_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            stats: action.payload.stats,
+            monthlyApplications: action.payload.monthlyApplications
         }
     }
     

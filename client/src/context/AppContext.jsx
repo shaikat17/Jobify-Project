@@ -2,7 +2,7 @@ import { useReducer, useContext, createContext, useEffect } from 'react';
 import axios from 'axios'
 
 import reducer from './reducer';
-import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DELETE_JOB_BEGIN, DELETE_JOB_ERROR, DISPLAY_ALERT, EDIT_JOB_BEGIN, EDIT_JOB_ERROR, EDIT_JOB_SUCCESS, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, HANDLE_CHANGE, LOGOUT_USER, SET_EDIT_JOB, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from './actions';
+import { CLEAR_ALERT, CLEAR_VALUES, CREATE_JOB_BEGIN, CREATE_JOB_ERROR, CREATE_JOB_SUCCESS, DELETE_JOB_BEGIN, DELETE_JOB_ERROR, DISPLAY_ALERT, EDIT_JOB_BEGIN, EDIT_JOB_ERROR, EDIT_JOB_SUCCESS, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, HANDLE_CHANGE, LOGOUT_USER, SET_EDIT_JOB, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS, SHOW_STATS_BEGIN, SHOW_STATS_SUCCESS, TOGGLE_SIDEBAR, UPDATE_USER_BEGIN, UPDATE_USER_ERROR, UPDATE_USER_SUCCESS } from './actions';
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -31,6 +31,8 @@ export const initialState = {
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
+  showStats: {},
+  monthlyApplications: []
 };
 
 
@@ -254,6 +256,25 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  // show stats function
+  const showStats = async () => {
+    dispatch({ type: SHOW_STATS_BEGIN })
+
+    try {
+      const { data } = await authFetch('/jobs/stats')
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyApplications: data.monthlyApplications
+        }
+      })
+    } catch (error) {
+      console.log(error.response)
+    }
+    clearAlert()
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -270,6 +291,7 @@ const AppProvider = ({ children }) => {
         setEditJob,
         deleteJob,
         editJob,
+        showStats,
       }}
     >
       {children}
