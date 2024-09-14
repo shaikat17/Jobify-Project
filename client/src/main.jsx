@@ -9,9 +9,9 @@ import {
 import "./index.css";
 
 import { ErrorPage, Register, Landing, ProtectedRoute } from '../src/pages'
-import App from './App';
 import { AppProvider } from './context/AppContext';
 import { AddJob, AllJobs, Profile, SharedLayOut, Stats } from './pages/dashboard';
+import { ThemeContextProvider } from './context/ThemeContext';
 
 const router = createBrowserRouter([
   {
@@ -54,8 +54,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <ThemeContextProvider>
     <AppProvider>
     <RouterProvider router={router} />
     </AppProvider>
+    </ThemeContextProvider>
   </StrictMode>,
 )

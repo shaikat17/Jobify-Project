@@ -29,6 +29,8 @@ const Wrapper = styled.nav`
   background: var(--white);
   .btn-container {
     position: relative;
+    display: flex;
+    gap: 10px;
   }
   .btn {
     display: flex;

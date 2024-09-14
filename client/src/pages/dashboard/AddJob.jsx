@@ -29,7 +29,7 @@ const AddJob = () => {
     handleChange({name, value})
   }
   return (
-    <Wrapper>
+    <Wrapper className=''>
       <form className="form">
         <h3>{isEditing ? 'Edit Job' : 'Add Job'}</h3>
         {showAlert && <Alert />}

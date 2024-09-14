@@ -1,11 +1,13 @@
 import { Link, Outlet } from "react-router-dom"
 import Wrapper from "../../assets/wrappers/SharedLayout"
 import { BigSidebar, Navbar, SmallSidebar } from "../../components"
+import { useThemeContext } from "../../context/ThemeContext"
 
 const SharedLayOut = () => {
+    const { lightMode } = useThemeContext()
   return (
-      <Wrapper>
-          <main className="dashboard">
+      <Wrapper className={`${lightMode === 'dark' ? 'dark' : 'dashboard-color'}`}>
+          <main className='dashboard'>
               <SmallSidebar />
               <BigSidebar />
               <div>

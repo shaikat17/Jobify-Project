@@ -5,12 +5,16 @@ import { FaAlignLeft, FaCaretDown, FaUserCircle }
 import Logo from './Logo';
 import { useAppContext } from '../context/AppContext';
 import { useState } from 'react';
+import { FiSun } from "react-icons/fi";
+import { PiMoonFill } from "react-icons/pi";
+import { useThemeContext } from '../context/ThemeContext';
 
 const Navbar = () => {
 const [showLogout, setShowLogout] = useState(false)
 
     // global context value
-    const {toggleSideBar, user, logoutUser} = useAppContext()
+    const { toggleSideBar, user, logoutUser } = useAppContext()
+    const { toggleMode, lightMode } = useThemeContext()
   return (
       <Wrapper>
           <div className="nav-center">
@@ -22,6 +26,9 @@ const [showLogout, setShowLogout] = useState(false)
                   <h3 className="logo-text">Dashboard</h3>
               </div>
               <div className="btn-container">
+              <button className='btn' onClick={toggleMode}>
+                {lightMode === 'light' ? <PiMoonFill /> : <FiSun />}
+              </button>
                   <button className="btn" onClick={() => setShowLogout(!showLogout)}>
                       <FaUserCircle />
                       {user?.name}

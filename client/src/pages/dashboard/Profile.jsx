@@ -2,10 +2,12 @@ import { useState } from 'react'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 import { useAppContext } from '../../context/AppContext'
 import { Alert, InputFrom } from '../../components'
+import { useThemeContext } from '../../context/ThemeContext'
 
 const Profile = () => {
   // Global values
   const { user, showAlert, displayAlert, updateUser, isLoading } = useAppContext()
+  const { lightMode } = useThemeContext()
   
   const userInformation = {
     name: user?.name,
@@ -35,7 +37,7 @@ const Profile = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper className={`${lightMode === 'dark' ? 'dark' : ''}`}>
       <form className="form" onSubmit={handleSubmit}>
         <h3>Profile</h3>
         {showAlert && <Alert />}

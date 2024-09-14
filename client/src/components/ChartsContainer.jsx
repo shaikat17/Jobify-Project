@@ -2,7 +2,7 @@ import { useState } from "react";
 import Wrapper from "../assets/wrappers/ChartsContainer";
 import { useAppContext } from "../context/AppContext";
 import BarChats from "./BarCharts";
-import AreaCharts from "./AreaCharts";
+import AreaCharts from "./AreaChart";
 
 const ChartsContainer = () => {
   const [barChart, setBarChart] = useState(true);
