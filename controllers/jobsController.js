@@ -61,14 +61,14 @@ const updateJob = async (req, res) => {
 };
 
 const getAllJobs = async (req, res) => {
-  const { search, status, jobType, sort } = req.body
+  const { search, status, jobType, sort } = req.query
   
   const queryObject = {
     createdBy: req.user.userId,
   }
 
   if (status !== 'all') {
-    queryObject.stats = status
+    queryObject.status = status
   }
 
   if (jobType !== 'all') {
@@ -79,7 +79,7 @@ const getAllJobs = async (req, res) => {
     queryObject.position = { $regex: search, $options: 'i' }
   }
 
-  const result = Job.find(queryObject)
+  let result = Job.find(queryObject)
 
   // chain sort conditions
   if (sort === 'latest') {
