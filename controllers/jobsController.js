@@ -124,9 +124,9 @@ const showStats = async (req, res) => {
   }, {})
   
   const defaultStats = {
-    pending: stats.pending || 0,
-    interview: stats.interview || 0,
-    declined: stats.declined
+    pending: stats?.pending || 0,
+    interview: stats?.interview || 0,
+    declined: stats?.declined
   }
 
   let monthlyApplications = await Job.aggregate([
@@ -148,8 +148,7 @@ const showStats = async (req, res) => {
     { $limit: 6 },
   ])
 
-  monthlyApplications = monthlyApplications
-  .map((item) => {
+  monthlyApplications = monthlyApplications?.map((item) => {
     const {
       _id: { year, month },
       count,

@@ -115,7 +115,7 @@ const reducer = (state, action) => {
           isLoading: false,
           showAlert: true,
           alertType: 'success',
-          alertText: 'Job Details Updated!',
+          alertText: 'Job Created Successfully!',
         };
       }
       if (action.type === CREATE_JOB_ERROR) {
@@ -165,7 +165,7 @@ const reducer = (state, action) => {
           isLoading: false,
           showAlert: true,
           alertType: 'success',
-          alertText: 'New Job EDITd!',
+          alertText: 'Job Details Updated!',
         };
       }
       if (action.type === EDIT_JOB_ERROR) {

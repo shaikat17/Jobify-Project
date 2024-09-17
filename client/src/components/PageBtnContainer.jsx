@@ -36,7 +36,7 @@ const PageButtonContainer = () => {
       </button>
 
       <div className="btn-container">
-        {pages.map((pageNumber) => {
+        {pages?.map((pageNumber) => {
           return (
             <button
               type="button"

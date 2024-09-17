@@ -118,7 +118,6 @@ const AppProvider = ({ children }) => {
       // local storage
       addUserToLocalStorage({user, token, location: user?.location})
     } catch (error) {
-      console.log(error.response)
       dispatch({type: SETUP_USER_ERROR, payload: {msg: error.response.data.msg}})
     }
     clearAlert()
@@ -214,7 +213,6 @@ const AppProvider = ({ children }) => {
         jobs, totalJobs, numOfPages
       }})
     } catch (error) {
-      console.log(error.response)
       logoutUser()
     }
     clearAlert()
@@ -281,7 +279,7 @@ const AppProvider = ({ children }) => {
         }
       })
     } catch (error) {
-      console.log(error.response)
+      logoutUser()
     }
     clearAlert()
   }

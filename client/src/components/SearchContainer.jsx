@@ -1,10 +1,11 @@
+import { useMemo, useState } from "react"
 import Wrapper from "../assets/wrappers/SearchContainer"
 import { useAppContext } from "../context/AppContext"
 import InputFrom from "./InputFrom"
 import InputSelectForm from "./InputSelectForm"
 
 const SearchContainer = () => {
-
+    const [ localSearch, setLocalSearch ] = useState('')
     const { isLoading,
         search,
         searchStatus,
@@ -18,13 +19,23 @@ const SearchContainer = () => {
      } = useAppContext()
 
     const handleSearch = (e) => {
-        if (isLoading) return
         handleChange({name: e.target.name, value: e.target.value})
     }
     const handleSubmit = (e) => {
         e.preventDefault()
         clearFilters()
     }
+    const debounce = () => {
+        let timeoutID;
+        return (e) => {
+          setLocalSearch(e.target.value);
+          clearTimeout(timeoutID);
+          timeoutID = setTimeout(() => {
+            handleChange({ name: e.target.name, value: e.target.value });
+          }, 1000);
+        };
+      };
+      const optimizedDebounce = useMemo(() => debounce(), []);
   return (
       <Wrapper>
           <form className="form">
@@ -34,8 +45,8 @@ const SearchContainer = () => {
                       labelText={'search'}
                       type={'text'}
                       name={'search'}
-                      value={search}
-                      handleChange={handleSearch}
+                      value={localSearch}
+                      handleChange={optimizedDebounce}
                   />
                   <InputSelectForm
                       labelText={'job status'}

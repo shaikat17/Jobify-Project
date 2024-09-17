@@ -11,7 +11,7 @@ const InputSelectForm = ({ labelText, name, value, handleChange, list }) => {
           onChange={handleChange}
           className='form-select'
         >
-          {list.map((itemValue, index) => {
+          {list?.map((itemValue, index) => {
             return (
               <option key={index} value={itemValue}>
                 {itemValue}
